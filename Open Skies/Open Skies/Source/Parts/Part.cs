@@ -6,22 +6,16 @@ using System.Threading.Tasks;
 
 namespace Open_Skies.Source {
 	class Part {
-		// Public Independant Properties
-		public string name { get; private set; }
+		// ---- Properties ----
+		public string name { get; protected set; }
 		public double mass { get; protected set; }
+		public double integrity { get; protected set; }
 
-		// Constructors
+		// ---- Constructors ----
 		public Part(string name, double mass) {
 			this.name = name;
 			this.mass = mass;
+			this.integrity = 100;
 		}
-	}
-
-	class Cockpit : Part {
-
-	}
-
-	class Wing : Part {
-
 	}
 }

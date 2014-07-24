@@ -7,40 +7,46 @@ using System.Threading.Tasks;
 
 namespace Open_Skies.Source {
 	class Aircraft {
-		// Public Independant Properties
+		// ---- Properties ----
 		public string name { get; private set; }
 		public PartNode basePart { get; private set; }
-
-		// Public Dependant Properties
 		public List<PartNode> partList {
 			get {
-				List<PartNode> list = new List<PartNode>();
-				List<PartNode> remaining = new List<PartNode>();
-				remaining.Add(basePart);
+				if (partListNeedsUpdate) {
+					_partList = new List<PartNode>();
+					List<PartNode> remaining = new List<PartNode>();
+					remaining.Add(basePart);
 
-				while (remaining.Count > 0) {
-					PartNode node = remaining.ElementAt(0);
-					list.Add(node);
-					remaining.Remove(node);
+					while (remaining.Count > 0) {
+						PartNode node = remaining.ElementAt(0);
+						_partList.Add(node);
+						remaining.Remove(node);
 
-					foreach (PartNode i in node.connectedNodes) {
-						if (!remaining.Contains(i)) remaining.Add(i);
+						foreach (PartNode i in node.connectedNodes) {
+							if (!remaining.Contains(i)) remaining.Add(i);
+						}
 					}
+
+					partListNeedsUpdate = false;
 				}
 
-				return list;
+				return _partList;
 			}
 		}
 
+		// ---- Fields ----
+		bool partListNeedsUpdate;
+		List<PartNode> _partList;
 
-		// Constructors
+		// ---- Constructors ----
 		public Aircraft(string name, PartNode basePart) {
 			this.name = name;
 			this.basePart = basePart;
+			partListNeedsUpdate = true;
 		}
 
 
-		// Methods
+		// ---- Methods ----
 		public List<Round> Fire(int delta) {
 			List<Round> rounds = new List<Round>();
 			
@@ -56,19 +62,24 @@ namespace Open_Skies.Source {
 	}
 
 	class PartNode {
-		// Public Independant Properties
+		// ---- Properties ----
 		public Part part;
 		public List<PartNode> connectedNodes { get; private set; }
 
 
-		// Constructors
+		// ---- Constructors ----
 		public PartNode(Part part, List<PartNode> connectedNodes) {
 			this.part = part;
 			this.connectedNodes = connectedNodes;
 		}
+		
+		public PartNode(Part part) {
+			this.part = part;
+			this.connectedNodes = new List<PartNode>();
+		}
 
 		
-		// Methods
+		// ---- Methods ----
 		public bool SeverNode(PartNode node) {
 			if (connectedNodes.Contains(node)) {
 				// This node is attached to the other node.  Sever the connection.
