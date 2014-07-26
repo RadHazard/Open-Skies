@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 namespace Open_Skies.Source {
 	class Wing : Part {
 		// ---- Properties ----
-		public double aspectRatio {
+		public double AspectRatio {
 			get {
-				return ((wingspan * wingspan) / planformArea);
+				return ((Wingspan * Wingspan) / PlanformArea);
 			}
 		}
 
 		// ---- Fields ----
 		// Wing shape is stored as wingspan and area to accomidate non-rectangular wings
-		private double wingspan; // meters
-		private double planformArea; // meters squared
+		private double Wingspan; // meters
+		private double PlanformArea; // meters squared
 
 		// ---- Constructors ----
 		public Wing(string name, double mass, double wingspan, double planformArea)
 			: base(name, mass) {
-			this.wingspan = wingspan;
-			this.planformArea = planformArea;
+			this.Wingspan = wingspan;
+			this.PlanformArea = planformArea;
 		}
 
 		// ---- Methods ----

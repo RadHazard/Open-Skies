@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 namespace Open_Skies.Source {
 	class Gun : Part {
 		// ---- Properties ----
-		public int caliber { get; protected set; } // hundreths of a millimeter
-		public Belt belt { get; protected set; }
-		public double mass { // kilograms
+		public int Caliber { get; protected set; } // hundreths of a millimeter
+		
+		public Belt Belt { get; protected set; }
+		
+		new public double Mass { // kilograms
 			get {
-				return base.mass + belt.mass;
+				return base.Mass + Belt.Mass;
 			}
 			protected set {
-				base.mass = value;
+				base.Mass = value;
 			}
 		}
-		public int rateOfFire { // rounds per minute
+
+		public int RateOfFire { // rounds per minute
 			get {
 				return 60000 / rofDelta;
 			}
@@ -25,10 +28,11 @@ namespace Open_Skies.Source {
 				rofDelta = 60000 / value;
 			}
 		}
-		public int remainingAmmo {
+		
+		public int RemainingAmmo {
 			get {
-				if (belt != null)
-					return (belt.size - currentRound);
+				if (Belt != null)
+					return (Belt.Size - currentRound);
 				else
 					return 0;
 			}
@@ -42,15 +46,15 @@ namespace Open_Skies.Source {
 
 		// ---- Constructors ----
 		public Gun(string name, double mass, int caliber, int rateOfFire, Belt belt) : base(name, mass) {
-			this.rateOfFire = rateOfFire;
-			this.belt = belt;
+			this.RateOfFire = rateOfFire;
+			this.Belt = belt;
 			this.currentRound = 0;
 			this.cooldown = 0;
 		}
 
 		public Gun(string name, double mass, int caliber, int rateOfFire) : base(name, mass) {
-			this.rateOfFire = rateOfFire;
-			this.belt = null;
+			this.RateOfFire = rateOfFire;
+			this.Belt = null;
 			this.currentRound = 0;
 			this.cooldown = 0;
 		}
@@ -61,9 +65,9 @@ namespace Open_Skies.Source {
 			List<Round> rounds = new List<Round>();
 
 			cooldown -= delta;
-			while (cooldown < 0 && remainingAmmo > 0) {
+			while (cooldown < 0 && RemainingAmmo > 0) {
 				cooldown += rofDelta;
-				rounds.Add(belt.rounds[currentRound++]);
+				rounds.Add(Belt.Rounds[currentRound++]);
 			}
 
 			if (cooldown < 0) cooldown = 0;
@@ -71,8 +75,8 @@ namespace Open_Skies.Source {
 		}
 
 		public void Reload(Belt belt) {
-			if (belt.caliber == caliber) {
-				this.belt = belt;
+			if (belt.Caliber == Caliber) {
+				this.Belt = belt;
 				this.currentRound = 0;
 				this.cooldown = 0;
 			} else {
@@ -83,19 +87,23 @@ namespace Open_Skies.Source {
 
 	class Belt {
 		// ---- Properties ----
-		public string name { get; private set; }
-		public int caliber { get; private set; }
-		public Round[] rounds { get; private set; }
-		public int size {
+		public string Name { get; private set; }
+		
+		public int Caliber { get; private set; }
+		
+		public Round[] Rounds { get; private set; }
+		
+		public int Size {
 			get {
-				return rounds.Length;
+				return Rounds.Length;
 			}
 		}
-		public double mass { // kilograms
+
+		public double Mass { // kilograms
 			get {
 				double m = 0;
-				for (int i = 0; i < size; i++)
-					m += rounds[i].mass;
+				for (int i = 0; i < Size; i++)
+					m += Rounds[i].Mass;
 				return m;
 			}
 		}
@@ -103,39 +111,43 @@ namespace Open_Skies.Source {
 
 		// ---- Constructors ----
 		private Belt(string name, int caliber) {
-			this.name = name;
-			this.caliber = caliber;
+			this.Name = name;
+			this.Caliber = caliber;
 		}
 
 		public Belt(string name, int caliber, Round[] belt)
 			: this(name, caliber) {
-			this.rounds = (Round[])belt.Clone();
+			this.Rounds = (Round[])belt.Clone();
 		}
 
 		public Belt(string name, int caliber, Round[] pattern, int size)
 			: this (name, caliber) {
-			this.rounds = new Round[size];
+			this.Rounds = new Round[size];
 			for (int i = 0; i < size; i++)
-				this.rounds[i] = pattern[i % pattern.Length];
+				this.Rounds[i] = pattern[i % pattern.Length];
 		}
 	}
 
 	class Round {
 		// ---- Properties ----
-		public string name { get; private set; }
-		public int caliber { get; private set; } // hundreths of a millimeter
-		public double mass { get; private set; } // kilograms
-		public double projectileMass { get; private set; } // kilograms
-		public double muzzleVelocity { get; private set; } // meters/second
+		public string Name { get; private set; }
+		
+		public int Caliber { get; private set; } // hundreths of a millimeter
+		
+		public double Mass { get; private set; } // kilograms
+		
+		public double ProjectileMass { get; private set; } // kilograms
+		
+		public double MuzzleVelocity { get; private set; } // meters/second
 
 
 		// ---- Constructors ----
 		public Round(string name, int caliber, double mass, double projectileMass, double muzzleVelocity) {
-			this.name = name;
-			this.caliber = caliber;
-			this.mass = mass;
-			this.projectileMass = projectileMass;
-			this.muzzleVelocity = muzzleVelocity;
+			this.Name = name;
+			this.Caliber = caliber;
+			this.Mass = mass;
+			this.ProjectileMass = projectileMass;
+			this.MuzzleVelocity = muzzleVelocity;
 		}
 	}
 
@@ -158,7 +170,7 @@ namespace Open_Skies.Source {
 	/// Ammo Count:  500 rounds
 	/// </summary>
 	class MK1Belt : Belt {
-		public static const Round[] pattern = new Round[] {
+		private static Round[] pattern = new Round[] {
 			new MK1Ball()
 		};
 		public MK1Belt() : base("MK1 Belt", 762, pattern, 500) { } 

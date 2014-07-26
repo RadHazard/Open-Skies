@@ -23,45 +23,70 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.airplaneGroupBox1 = new System.Windows.Forms.GroupBox();
-			this.airplaneGroupBox2 = new System.Windows.Forms.GroupBox();
+			this.GroupBoxAircraft = new System.Windows.Forms.GroupBox();
+			this.deltaComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// airplaneGroupBox1
+			// GroupBoxAircraft
 			// 
-			this.airplaneGroupBox1.Location = new System.Drawing.Point(13, 13);
-			this.airplaneGroupBox1.Name = "airplaneGroupBox1";
-			this.airplaneGroupBox1.Size = new System.Drawing.Size(332, 537);
-			this.airplaneGroupBox1.TabIndex = 0;
-			this.airplaneGroupBox1.TabStop = false;
-			this.airplaneGroupBox1.Text = "Airplane 1";
+			this.GroupBoxAircraft.Location = new System.Drawing.Point(13, 13);
+			this.GroupBoxAircraft.Name = "GroupBoxAircraft";
+			this.GroupBoxAircraft.Size = new System.Drawing.Size(300, 450);
+			this.GroupBoxAircraft.TabIndex = 0;
+			this.GroupBoxAircraft.TabStop = false;
+			this.GroupBoxAircraft.Text = "Active Aircraft";
 			// 
-			// airplaneGroupBox2
+			// deltaComboBox
 			// 
-			this.airplaneGroupBox2.Location = new System.Drawing.Point(395, 13);
-			this.airplaneGroupBox2.Name = "airplaneGroupBox2";
-			this.airplaneGroupBox2.Size = new System.Drawing.Size(332, 537);
-			this.airplaneGroupBox2.TabIndex = 1;
-			this.airplaneGroupBox2.TabStop = false;
-			this.airplaneGroupBox2.Text = "Airplane 2";
+			this.deltaComboBox.FormattingEnabled = true;
+			this.deltaComboBox.Items.AddRange(new object[] {
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900",
+            "1000"});
+			this.deltaComboBox.Location = new System.Drawing.Point(72, 499);
+			this.deltaComboBox.Name = "deltaComboBox";
+			this.deltaComboBox.Size = new System.Drawing.Size(54, 21);
+			this.deltaComboBox.TabIndex = 4;
+			this.deltaComboBox.Text = "100";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 502);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(54, 13);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "Delta (ms)";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// BattleForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(739, 562);
-			this.Controls.Add(this.airplaneGroupBox2);
-			this.Controls.Add(this.airplaneGroupBox1);
+			this.ClientSize = new System.Drawing.Size(636, 528);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.deltaComboBox);
+			this.Controls.Add(this.GroupBoxAircraft);
 			this.Name = "BattleForm";
 			this.Text = "Form1";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox airplaneGroupBox1;
-		private System.Windows.Forms.GroupBox airplaneGroupBox2;
+		private System.Windows.Forms.GroupBox GroupBoxAircraft;
+		private System.Windows.Forms.ComboBox deltaComboBox;
+		private System.Windows.Forms.Label label1;
 	}
 }
 

@@ -6,42 +6,49 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Open_Skies.Source {
-	class Aircraft {
+	internal class Aircraft {
 		// ---- Properties ----
-		public string name { get; private set; }
-		public PartNode basePart { get; private set; }
-		public List<PartNode> partList {
+		public string Name { get; private set; }
+		
+		public PartNode BasePart { get; private set; }
+		
+		public List<PartNode> PartList {
 			get {
 				if (partListNeedsUpdate) {
-					_partList = new List<PartNode>();
+					partList = new List<PartNode>();
 					List<PartNode> remaining = new List<PartNode>();
-					remaining.Add(basePart);
+					remaining.Add(BasePart);
 
 					while (remaining.Count > 0) {
 						PartNode node = remaining.ElementAt(0);
-						_partList.Add(node);
+						partList.Add(node);
 						remaining.Remove(node);
 
 						foreach (PartNode i in node.connectedNodes) {
-							if (!remaining.Contains(i)) remaining.Add(i);
+							if (!remaining.Contains(i) && !partList.Contains(i)) remaining.Add(i);
 						}
 					}
 
 					partListNeedsUpdate = false;
 				}
 
-				return _partList;
+				return partList;
+			}
+		}
+		List<PartNode> partList;
+		bool partListNeedsUpdate;
+
+		public int PartNumber {
+			get {
+				return PartList.Count;
 			}
 		}
 
-		// ---- Fields ----
-		bool partListNeedsUpdate;
-		List<PartNode> _partList;
 
 		// ---- Constructors ----
 		public Aircraft(string name, PartNode basePart) {
-			this.name = name;
-			this.basePart = basePart;
+			this.Name = name;
+			this.BasePart = basePart;
 			partListNeedsUpdate = true;
 		}
 
@@ -50,7 +57,7 @@ namespace Open_Skies.Source {
 		public List<Round> Fire(int delta) {
 			List<Round> rounds = new List<Round>();
 			
-			foreach (PartNode node in partList) {
+			foreach (PartNode node in PartList) {
 				if (node.part is Gun) {
 					List<Round> round = ((Gun)node.part).Shoot(delta);
 					if (round != null) rounds.AddRange(round);
@@ -95,7 +102,7 @@ namespace Open_Skies.Source {
 		public bool AttachNode(PartNode node) {
 			if (!connectedNodes.Contains(node)) {
 				// This node is not attached to the other node.  Attach it.
-				connectedNodes.Add(this);
+				connectedNodes.Add(node);
 				node.AttachNode(this);
 				return true;
 			} else {

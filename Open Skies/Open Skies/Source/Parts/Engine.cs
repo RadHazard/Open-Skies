@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace Open_Skies.Source.Parts {
 	class Engine : Part {
-		public static const double AIR_DENSITY = 1.2045; // kg/m^3
+		public const double AIR_DENSITY = 1.2045; // kg/m^3
 
 		// ---- Properties ----
-		public Prop prop { get; protected set; }
-		public int power { get; protected set; } // kilowatts
+		public Prop Prop { get; protected set; }
+		
+		public int Power { get; protected set; } // kilowatts
+		
 		public int RPM { get; protected set; } // Revolutions per minute
-		public double thrust {
+		
+		public double Thrust {
 			get {
 				//F = .5 * r * A * [V_e^2 - V_0^2]
 				/*
@@ -34,34 +37,38 @@ namespace Open_Skies.Source.Parts {
       			objKTS = (objfspeed / 1.1508);
        			objOZ = (objkg * 35.273962);*/
 
-				return 4000 * integrity;  // HAX
+				return 4000 * Integrity;  // HAX
 			}
 		}
 
 		// ---- Constructors ----
 		public Engine(string name, double mass, int power, int RPM, Prop prop)
 			: base(name, mass) {
-			this.power = power;
+			this.Power = power;
 			this.RPM = RPM;
-			this.prop = prop;
+			this.Prop = prop;
 		}
 	}
 
 	class Prop {
 		// ---- Properties ----
-		public string name { get; protected set; }
-		public int blades { get; protected set; }
-		public int diameter { get; protected set; } // millimeters
-		public int pitch { get; protected set; } // millimeters
-		public double efficiency { get; protected set; } // percent
+		public string Name { get; protected set; }
+		
+		public int Blades { get; protected set; }
+		
+		public int Diameter { get; protected set; } // millimeters
+		
+		public int Pitch { get; protected set; } // millimeters
+		
+		public double Efficiency { get; protected set; } // percent
 
 		// ---- Constructors ----
 		public Prop(string name, int blades, int diameter, int pitch, double efficiency) {
-			this.name = name;
-			this.blades = blades;
-			this.diameter = diameter;
-			this.pitch = pitch;
-			this.efficiency = efficiency;
+			this.Name = name;
+			this.Blades = blades;
+			this.Diameter = diameter;
+			this.Pitch = pitch;
+			this.Efficiency = efficiency;
 		}
 	}
 

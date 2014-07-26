@@ -7,27 +7,31 @@ using System.Threading.Tasks;
 namespace Open_Skies.Source {
 	class ControlSurface : Part {
 		// ---- Properties ----
-		public double area { get; protected set; }
-		public double maxDeflection { get; protected set; }
+		public double Area { get; protected set; }
+		
+		public double MaxDeflection { get; protected set; }
 
-		public double deflection {
-			get;
+		public double Deflection {
+			get {
+				return deflection;
+			}
 			set {
-				if (value > maxDeflection)
-					deflection = maxDeflection;
-				else if (value < -maxDeflection)
-					deflection = -maxDeflection;
+				if (value > MaxDeflection)
+					deflection = MaxDeflection;
+				else if (value < -MaxDeflection)
+					deflection = -MaxDeflection;
 				else
 					deflection = value;
 			}
 		}
+		public double deflection;
 
 		// ---- Constructors ----
 		public ControlSurface(string name, double mass, double area, double maxDeflection)
 			: base(name, mass) {
-			this.area = area;
-			this.maxDeflection = maxDeflection;
-			this.deflection = 0;
+			this.Area = area;
+			this.MaxDeflection = maxDeflection;
+			this.Deflection = 0;
 		}
 	}
 
@@ -63,7 +67,7 @@ namespace Open_Skies.Source {
 	/// Max Deflection:  30 deg
 	/// </summary>
 	class Elevator_MK1 : Elevator {
-		public Elevator_MK1() : base("Elevator_MK1", 10, 0.25, 30) { }
+		public Elevator_MK1() : base("MK1 Elevator", 10, 0.25, 30) { }
 	}
 
 	/// <summary>
@@ -74,7 +78,7 @@ namespace Open_Skies.Source {
 	/// Max Deflection:  30 deg
 	/// </summary>
 	class Aileron_MK1 : Aileron {
-		public Aileron_MK1() : base("Elevator_MK1", 20, 0.5, 30) { }
+		public Aileron_MK1() : base("MK1 Aileron", 20, 0.5, 30) { }
 	}
 
 
@@ -86,6 +90,6 @@ namespace Open_Skies.Source {
 	/// Max Deflection:  30 deg
 	/// </summary>
 	class Rudder_MK1 : Rudder {
-		public Rudder_MK1() : base("Elevator_MK1", 10, 0.25, 30) { }
+		public Rudder_MK1() : base("MK1 Rudder", 10, 0.25, 30) { }
 	}
 }
