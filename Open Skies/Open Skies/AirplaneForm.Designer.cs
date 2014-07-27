@@ -1,5 +1,5 @@
 ﻿namespace Open_Skies {
-	partial class AirplaneForm {
+	partial class AircraftForm {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -37,13 +37,13 @@
 			this.GroupBoxParts.TabStop = false;
 			this.GroupBoxParts.Text = "Parts";
 			// 
-			// AirplaneForm
+			// AircraftForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(321, 472);
 			this.Controls.Add(this.GroupBoxParts);
-			this.Name = "AirplaneForm";
+			this.Name = "AircraftForm";
 			this.Text = "AirplaneForm";
 			this.ResumeLayout(false);
 			this.PerformLayout();

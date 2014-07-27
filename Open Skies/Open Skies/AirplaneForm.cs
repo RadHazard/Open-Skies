@@ -10,27 +10,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Open_Skies {
-	public partial class AirplaneForm : Form {
-		Aircraft aircraft;
+	public partial class AircraftForm : Form {
+		internal Aircraft Aircraft { get; private set; }
 
-		internal AirplaneForm(Aircraft aircraft) {
-			this.aircraft = aircraft;
-
+		internal AircraftForm(Aircraft aircraft) {
 			InitializeComponent();
+
+			this.Aircraft = aircraft;
+			this.Text = aircraft.Name;
+			this.FormClosing += AircraftForm_FormClosing;
 
 			UpdateGraphics();
 		}
 
+		/// <summary>
+		/// Updates the display of the screen
+		/// </summary>
 		private void UpdateGraphics() {
 			this.GroupBoxParts.Controls.Clear();
 
-			var i = 1;
-			foreach (PartNode node in aircraft.PartList) {
+			int i = 0;
+			foreach (PartNode node in Aircraft.PartList) {
 				Part part = node.part;
 
 				Label partLabel = new Label();
 				partLabel.Text = "(" + part.Integrity + ") " + part.Name + ", " + part.Mass + " kg";
-				partLabel.Location = new Point(20, i * (partLabel.Height));
+				partLabel.Location = new Point(6, (i * partLabel.Height) + 16);
 				partLabel.AutoSize = true;
 
 				// Color part name by integrity
@@ -49,6 +54,18 @@ namespace Open_Skies {
 
 				this.GroupBoxParts.Controls.Add(partLabel);
 				i++;
+			}
+		}
+
+		/// <summary>
+		/// Overrides the default FormClosing to hide the form instead
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void AircraftForm_FormClosing(object sender, FormClosingEventArgs e) {
+			if (e.CloseReason == CloseReason.UserClosing) {
+				this.Hide();
+				e.Cancel = true;
 			}
 		}
 	}
